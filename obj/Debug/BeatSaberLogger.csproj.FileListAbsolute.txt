@@ -1,9 +1,0 @@
-C:\Users\Tyler\RiderProjects\BeatSaberVersionChecker\BeatSaberLogger\bin\Debug\BeatSaberLogger.dll
-C:\Users\Tyler\RiderProjects\BeatSaberVersionChecker\BeatSaberLogger\bin\Debug\BeatSaberLogger.pdb
-C:\Users\Tyler\RiderProjects\BeatSaberVersionChecker\BeatSaberLogger\bin\Debug\IllusionPlugin.dll
-C:\Users\Tyler\RiderProjects\BeatSaberVersionChecker\BeatSaberLogger\bin\Debug\IllusionPlugin.pdb
-C:\Users\Tyler\RiderProjects\BeatSaberVersionChecker\BeatSaberLogger\obj\Debug\BeatSaberLogger.csprojResolveAssemblyReference.cache
-C:\Users\Tyler\RiderProjects\BeatSaberVersionChecker\BeatSaberLogger\obj\Debug\BeatSaberLogger.csproj.CoreCompileInputs.cache
-C:\Users\Tyler\RiderProjects\BeatSaberVersionChecker\BeatSaberLogger\obj\Debug\BeatSaberLogger.csproj.CopyComplete
-C:\Users\Tyler\RiderProjects\BeatSaberVersionChecker\BeatSaberLogger\obj\Debug\BeatSaberLogger.dll
-C:\Users\Tyler\RiderProjects\BeatSaberVersionChecker\BeatSaberLogger\obj\Debug\BeatSaberLogger.pdb
