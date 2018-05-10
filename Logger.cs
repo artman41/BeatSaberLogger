@@ -1,59 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Globalization;
 using System.IO;
 using System.Threading;
 using IllusionPlugin;
 
-namespace BeatSaberVersionChecker {
+namespace BeatSaberLogger {
     public class Logger {
-        private readonly Queue<string> LogQueue;
-        private readonly FileInfo LogFile;
-        private readonly Thread WatcherThread;
-        private bool ThreadRunning;
+        private readonly Queue<string> _logQueue;
+        private readonly FileInfo _logFile;
+        private readonly Thread _watcherThread;
+        private bool _threadRunning;
         
         public Logger(IPlugin plugin) {
-            LogQueue = new Queue<string>();
-            LogFile = GetPath(plugin);
-            WatcherThread = new Thread(QueueWatcher) {IsBackground = true};
-            ThreadRunning = true;
+            _logQueue = new Queue<string>();
+            _logFile = GetPath(plugin);
+            _watcherThread = new Thread(QueueWatcher) {IsBackground = true};
+            _threadRunning = true;
             Start();
         }
 
         public void Log(string msg) {
-            if(!WatcherThread.IsAlive) throw new Exception("Logger is Closed!");
-            LogQueue.Enqueue($"[LOG @ {DateTime.Now:HH:mm:ss}] {msg}");
+            if(!_watcherThread.IsAlive) throw new Exception("Logger is Closed!");
+            _logQueue.Enqueue($"[LOG @ {DateTime.Now:HH:mm:ss}] {msg}");
         }
         
         public void Error(string msg) {
-            if(!WatcherThread.IsAlive) throw new Exception("Logger is Closed!");
-            LogQueue.Enqueue($"[ERROR @ {DateTime.Now:HH:mm:ss}] {msg}");
+            if(!_watcherThread.IsAlive) throw new Exception("Logger is Closed!");
+            _logQueue.Enqueue($"[ERROR @ {DateTime.Now:HH:mm:ss}] {msg}");
         }
         
         public void Exception(string msg) {
-            if(!WatcherThread.IsAlive) throw new Exception("Logger is Closed!");
-            LogQueue.Enqueue($"[EXCEPTION @ {DateTime.Now:HH:mm:ss}] {msg}");
+            if(!_watcherThread.IsAlive) throw new Exception("Logger is Closed!");
+            _logQueue.Enqueue($"[EXCEPTION @ {DateTime.Now:HH:mm:ss}] {msg}");
         }
 
         void QueueWatcher() {
-            LogFile.Create().Close();
-            while (ThreadRunning) {
-                if (LogQueue.Count > 0) {
-                    using (var f = LogFile.AppendText()) {
-                        while (LogQueue.Count > 0) {
-                            f.WriteLine(LogQueue.Dequeue());
+            _logFile.Create().Close();
+            while (_threadRunning) {
+                if (_logQueue.Count > 0) {
+                    using (var f = _logFile.AppendText()) {
+                        while (_logQueue.Count > 0) {
+                            f.WriteLine(_logQueue.Dequeue());
                         }
                     }
                 }
             }
         }
 
-        void Start() => WatcherThread.Start();
+        void Start() => _watcherThread.Start();
 
         public void Stop() {
-            ThreadRunning = false;
-            WatcherThread.Join();
+            _threadRunning = false;
+            _watcherThread.Join();
         }
 
         FileInfo GetPath(IPlugin plugin) {
