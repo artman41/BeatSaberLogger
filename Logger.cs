@@ -10,6 +10,8 @@ namespace BeatSaberLogger {
         private readonly FileInfo _logFile;
         private readonly Thread _watcherThread;
         private bool _threadRunning;
+
+        private string oldLog = string.Empty;
         
         public Logger(IPlugin plugin) {
             _logQueue = new Queue<string>();
@@ -38,11 +40,17 @@ namespace BeatSaberLogger {
             _logFile.Create().Close();
             while (_threadRunning) {
                 if (_logQueue.Count > 0) {
+                    _watcherThread.IsBackground = false;
                     using (var f = _logFile.AppendText()) {
                         while (_logQueue.Count > 0) {
-                            f.WriteLine(_logQueue.Dequeue());
+                            var d = _logQueue.Dequeue();
+                            if (d == oldLog) return;
+                            oldLog = d;
+                            f.WriteLine(d);
                         }
                     }
+
+                    _watcherThread.IsBackground = true;
                 }
             }
         }
